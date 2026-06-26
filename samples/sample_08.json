@@ -1,0 +1,73 @@
+{
+  "_meta": {
+    "source": "SAMPLE-08 from docs/SUST_Preli_Sample_Cases.json",
+    "description": "Multiple plausible transactions, ambiguous match. When multiple transactions plausibly match, do not guess. Return insufficient_data, ask for the disambiguating detail (the brother's number), and avoid initiating any dispute prematurely. Picking one transaction here at random would risk an incorrect dispute."
+  },
+  "request": {
+    "ticket_id": "TKT-008",
+    "complaint": "I sent 1000 to my brother yesterday but he says he didn't get it. Please check.",
+    "language": "en",
+    "channel": "in_app_chat",
+    "user_type": "customer",
+    "transaction_history": [
+      {
+        "transaction_id": "TXN-9801",
+        "timestamp": "2026-04-13T11:20:00Z",
+        "type": "transfer",
+        "amount": 1000,
+        "counterparty": "+8801712001122",
+        "status": "completed"
+      },
+      {
+        "transaction_id": "TXN-9802",
+        "timestamp": "2026-04-13T19:45:00Z",
+        "type": "transfer",
+        "amount": 1000,
+        "counterparty": "+8801812334455",
+        "status": "completed"
+      },
+      {
+        "transaction_id": "TXN-9803",
+        "timestamp": "2026-04-13T20:10:00Z",
+        "type": "transfer",
+        "amount": 1000,
+        "counterparty": "+8801712001122",
+        "status": "failed"
+      }
+    ]
+  },
+  "response": {
+    "ticket_id": "TKT-008",
+    "relevant_transaction_id": null,
+    "evidence_verdict": "insufficient_data",
+    "case_type": "wrong_transfer",
+    "severity": "medium",
+    "department": "dispute_resolution",
+    "agent_summary": "Multiple possible matches found for the mentioned amount of I sent 1000 to my brother yesterday but he says he didn't get it. Please check.. Request needs more disambiguating detail (such as the recipient phone or reference).",
+    "recommended_next_action": "Verify  details with the customer and initiate the wrong-transfer dispute workflow per policy.",
+    "customer_reply": "We have received your request. For your security, please do not share your PIN or OTP with anyone. Our support team will review the case and contact you through official support channels.",
+    "human_review_required": false,
+    "confidence": 0.65,
+    "reason_codes": [
+      "ambiguous_match",
+      "needs_clarification"
+    ]
+  },
+  "expected_output": {
+    "ticket_id": "TKT-008",
+    "relevant_transaction_id": null,
+    "evidence_verdict": "insufficient_data",
+    "case_type": "wrong_transfer",
+    "severity": "medium",
+    "department": "dispute_resolution",
+    "agent_summary": "Customer reports a 1000 BDT transfer to their brother was not received. Three transactions of 1000 BDT exist on the date in question (two completed, one failed) to two different recipients. Cannot determine which is the brother's number without further input.",
+    "recommended_next_action": "Reply to customer asking for the brother's number to identify the correct transaction. Do not initiate dispute until the transaction is confirmed.",
+    "customer_reply": "Thank you for reaching out. We see multiple transactions of 1000 BDT on that date. Could you share your brother's number so we can identify the right transaction? Please do not share your PIN or OTP with anyone.",
+    "human_review_required": false,
+    "confidence": 0.65,
+    "reason_codes": [
+      "ambiguous_match",
+      "needs_clarification"
+    ]
+  }
+}

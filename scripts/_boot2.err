@@ -1,0 +1,5 @@
+[32mINFO[0m:     Started server process [[36m15808[0m]
+[32mINFO[0m:     Waiting for application startup.
+2026-06-26 22:49:02,964 INFO prantoledger.main prantoledger 1.0.0 ready | llm_pool=0 (ready=0)
+[32mINFO[0m:     Application startup complete.
+[32mINFO[0m:     Uvicorn running on [1mhttp://127.0.0.1:8080[0m (Press CTRL+C to quit)

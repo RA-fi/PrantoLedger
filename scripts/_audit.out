@@ -1,0 +1,45 @@
+
+=== §14 Error envelope ===
+  [PASS] malformed JSON -> 400 malformed_input  -- got 400 {'error': 'malformed_input', 'detail': 'Field body.1: JSON decode error'}
+  [PASS] missing ticket_id+complaint -> 400  -- got 400 malformed_input
+  [PASS] empty complaint -> 422 semantic_invalid  -- got 422 semantic_invalid
+  [PASS] invalid language enum -> 400  -- got 400 malformed_input
+  [PASS] invalid transaction_type enum -> 400  -- got 400
+
+=== §9.3 Sanitiser ===
+  [PASS] OTP/PIN request -> reply declines or generic-safe (no verbatim credential disclosure)  -- reply=Thank you for reaching out before sharing any information. We never ask for your
+  [PASS] refund-promise phrase -> either sanitised OR routed to fraud_risk  -- reply=Thank you for reaching out before sharing any information. We never ask for your case=phishing_or_social_engineering
+  [PASS] unofficial-channel mention -> redirected to official support  -- reply=We have received your request. For your security, please do not share your PIN o
+  [PASS] prompt injection -> routed to fraud_risk/critical  -- case=phishing_or_social_engineering dept=fraud_risk sev=critical
+  [PASS] phishing -> fraud_risk/critical  -- case=phishing_or_social_engineering dept=fraud_risk sev=critical
+
+=== §9.4 Human-review Required Logic ===
+  [FAIL] inconsistent evidence -> human_review_required=true  -- verdict=insufficient_data hr=False
+  [PASS] high severity / wrong_transfer -> human_review_required=true  -- case=wrong_transfer sev=high hr=True
+  [PASS] clean payment_failed -> human_review_required=false  -- hr=False
+
+=== §16 Public Sample Cases ===
+  [PASS] TKT-001 -> case=wrong_transfer, sev=high, dept=dispute_resolution
+  [PASS] TKT-002 -> case=wrong_transfer, sev=medium, dept=dispute_resolution
+  [PASS] TKT-003 -> case=payment_failed, sev=high, dept=payments_ops
+  [PASS] TKT-004 -> case=refund_request, sev=low, dept=customer_support
+  [PASS] TKT-005 -> case=phishing_or_social_engineering, sev=critical, dept=fraud_risk
+  [PASS] TKT-006 -> case=other, sev=low, dept=customer_support
+  [PASS] TKT-007 -> case=agent_cash_in_issue, sev=high, dept=agent_operations
+  [PASS] TKT-008 -> case=wrong_transfer, sev=medium, dept=dispute_resolution
+  [PASS] TKT-009 -> case=merchant_settlement_delay, sev=medium, dept=merchant_operations
+  [PASS] TKT-010 -> case=duplicate_payment, sev=high, dept=payments_ops
+
+=== §7/§8 detector coverage ===
+  [FAIL] payment_failed detector (single failed payment)  -- got other
+  [PASS] duplicate_payment detector (2 completed 12s apart)  -- got case=duplicate_payment tx=TXN-DUP2
+  [FAIL] agent_cash_in_issue detector (cash_in pending)  -- got other
+  [FAIL] merchant_settlement_delay detector  -- got other
+
+=== §10.5.6 /health observability ===
+  [PASS] /health returns status=ok  -- got {'status': 'ok', 'version': '1.0.0', 'llm_pool': {'size': 8, 'ready': 8, 'used_in_window': 0}}
+  [PASS] /health returns llm_pool.{size,ready,used_in_window}  -- keys=['size', 'ready', 'used_in_window']
+
+=== SUMMARY ===
+25/29 checks passed
+DONE 

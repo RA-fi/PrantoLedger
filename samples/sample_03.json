@@ -1,0 +1,58 @@
+{
+  "_meta": {
+    "source": "SAMPLE-03 from docs/SUST_Preli_Sample_Cases.json",
+    "description": "Failed payment with balance deducted. Clear payment failure with claimed balance deduction. Routes to payments_ops. Note the customer_reply does NOT promise a refund. It says 'any eligible amount will be returned through official channels', which is safe language."
+  },
+  "request": {
+    "ticket_id": "TKT-003",
+    "complaint": "I tried to pay 1200 taka for my mobile recharge but the app showed failed. But my balance was deducted! Please refund my money.",
+    "language": "en",
+    "channel": "in_app_chat",
+    "user_type": "customer",
+    "transaction_history": [
+      {
+        "transaction_id": "TXN-9301",
+        "timestamp": "2026-04-14T16:00:00Z",
+        "type": "payment",
+        "amount": 1200,
+        "counterparty": "MERCHANT-MOBILE-OP",
+        "status": "failed"
+      }
+    ]
+  },
+  "response": {
+    "ticket_id": "TKT-003",
+    "relevant_transaction_id": "TXN-9301",
+    "evidence_verdict": "consistent",
+    "case_type": "payment_failed",
+    "severity": "high",
+    "department": "payments_ops",
+    "agent_summary": "Failed transaction TXN-9301 with apparent balance deduction noted. Payments team will investigate.",
+    "recommended_next_action": "Investigate TXN-9301 ledger status. If balance was deducted on a failed payment, initiate the automatic reversal flow within standard SLA.",
+    "customer_reply": "We have received your request. For your security, please do not share your PIN or OTP with anyone. Our support team will review the case and contact you through official support channels.",
+    "human_review_required": false,
+    "confidence": 0.9,
+    "reason_codes": [
+      "status_contradicts_complaint",
+      "tx_match",
+      "potential_balance_deduction"
+    ]
+  },
+  "expected_output": {
+    "ticket_id": "TKT-003",
+    "relevant_transaction_id": "TXN-9301",
+    "evidence_verdict": "consistent",
+    "case_type": "payment_failed",
+    "severity": "high",
+    "department": "payments_ops",
+    "agent_summary": "Customer attempted a 1200 BDT mobile recharge (TXN-9301) which failed, but reports balance was deducted. Requires payments operations investigation.",
+    "recommended_next_action": "Investigate TXN-9301 ledger status. If balance was deducted on a failed payment, initiate the automatic reversal flow within standard SLA.",
+    "customer_reply": "We have noted that transaction TXN-9301 may have caused an unexpected balance deduction. Our payments team will review the case and any eligible amount will be returned through official channels. Please do not share your PIN or OTP with anyone.",
+    "human_review_required": false,
+    "confidence": 0.9,
+    "reason_codes": [
+      "payment_failed",
+      "potential_balance_deduction"
+    ]
+  }
+}

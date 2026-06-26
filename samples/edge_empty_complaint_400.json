@@ -1,0 +1,29 @@
+{
+  "_meta": {
+    "source": "Hand-crafted edge case covering PRD §5.2 + §6.1 validator.",
+    "description": "Whitespace-only complaint trips the validator and returns 400 invalid_request."
+  },
+  "request": {
+    "ticket_id": "EDGE-400-01",
+    "complaint": "   "
+  },
+  "response": {
+    "error": {
+      "error": "invalid_request",
+      "issues": [
+        {
+          "type": "value_error",
+          "loc": [
+            "complaint"
+          ],
+          "msg": "Value error, complaint must not be blank",
+          "input": "   ",
+          "ctx": {
+            "error": "complaint must not be blank"
+          },
+          "url": "https://errors.pydantic.dev/2.9/v/value_error"
+        }
+      ]
+    }
+  }
+}

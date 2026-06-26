@@ -1,0 +1,33 @@
+{
+  "_meta": {
+    "source": "Hand-crafted adversarial case covering PRD §9.2.",
+    "description": "Phishing keyword scanner overrides case_type + severity regardless of history."
+  },
+  "request": {
+    "ticket_id": "EDGE-PHISH-01",
+    "complaint": "Someone called and said they are from the bank and asked for my OTP to unblock my account.",
+    "language": "en",
+    "channel": "call_center",
+    "user_type": "customer",
+    "transaction_history": []
+  },
+  "response": {
+    "ticket_id": "EDGE-PHISH-01",
+    "relevant_transaction_id": null,
+    "evidence_verdict": "insufficient_data",
+    "case_type": "phishing_or_social_engineering",
+    "severity": "critical",
+    "department": "fraud_risk",
+    "agent_summary": "Reported social-engineering or credential-request attempt. The complaint itself contains phishing or credential-request language. Routed to fraud_risk without evaluating transaction history.",
+    "recommended_next_action": "Escalate to fraud_risk team immediately. Confirm to customer that the company never asks for OTP. Log the reported number for fraud pattern analysis.",
+    "customer_reply": "Thank you for reaching out before sharing any information. We never ask for your PIN, OTP, or password under any circumstances. Please do not share these with anyone, even if they claim to be from us. Our fraud team has been notified of this incident.",
+    "human_review_required": true,
+    "confidence": 0.95,
+    "reason_codes": [
+      "phishing_keywords_detected",
+      "empty_transaction_history",
+      "phishing_keywords_detected",
+      "phishing_keywords_detected"
+    ]
+  }
+}

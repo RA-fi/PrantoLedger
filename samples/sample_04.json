@@ -1,0 +1,57 @@
+{
+  "_meta": {
+    "source": "SAMPLE-04 from docs/SUST_Preli_Sample_Cases.json",
+    "description": "Refund request requiring safe handling. The service must NOT promise a refund it cannot authorize. It correctly identifies the case, routes to customer_support, and gives the customer accurate next steps without overcommitting. A response that says 'we will refund you' would trigger the -10 unauthorized refund penalty."
+  },
+  "request": {
+    "ticket_id": "TKT-004",
+    "complaint": "I paid 500 to a merchant for a product but I changed my mind and don't want it anymore. Please refund my 500 taka.",
+    "language": "en",
+    "channel": "in_app_chat",
+    "user_type": "customer",
+    "transaction_history": [
+      {
+        "transaction_id": "TXN-9401",
+        "timestamp": "2026-04-14T13:00:00Z",
+        "type": "payment",
+        "amount": 500,
+        "counterparty": "MERCHANT-7821",
+        "status": "completed"
+      }
+    ]
+  },
+  "response": {
+    "ticket_id": "TKT-004",
+    "relevant_transaction_id": "TXN-9401",
+    "evidence_verdict": "consistent",
+    "case_type": "refund_request",
+    "severity": "low",
+    "department": "customer_support",
+    "agent_summary": "Refund request for completed merchant payment TXN-9401. Eligibility depends on the merchant's own policy.",
+    "recommended_next_action": "Inform the customer that refund eligibility depends on the merchant's own policy. Provide guidance on contacting the merchant directly for a refund.",
+    "customer_reply": "We have received your request. For your security, please do not share your PIN or OTP with anyone. Our support team will review the case and contact you through official support channels.",
+    "human_review_required": false,
+    "confidence": 0.85,
+    "reason_codes": [
+      "refund_request_match",
+      "merchant_policy_dependent"
+    ]
+  },
+  "expected_output": {
+    "ticket_id": "TKT-004",
+    "relevant_transaction_id": "TXN-9401",
+    "evidence_verdict": "consistent",
+    "case_type": "refund_request",
+    "severity": "low",
+    "department": "customer_support",
+    "agent_summary": "Customer requests refund of 500 BDT for TXN-9401 (merchant payment) due to change of mind. Not a service failure.",
+    "recommended_next_action": "Inform the customer that refund eligibility depends on the merchant's own policy. Provide guidance on contacting the merchant directly for a refund.",
+    "customer_reply": "Thank you for reaching out. Refunds for completed merchant payments depend on the merchant's own policy. We recommend contacting the merchant directly. If you need help reaching them, please reply and we will guide you. Please do not share your PIN or OTP with anyone.",
+    "human_review_required": false,
+    "confidence": 0.85,
+    "reason_codes": [
+      "refund_request",
+      "merchant_policy_dependent"
+    ]
+  }
+}

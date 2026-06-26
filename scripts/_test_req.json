@@ -1,0 +1,1 @@
+{"ticket_id":"TKT-TEST","complaint":"hello","transaction_history":[{"transaction_id":"TXN-A","timestamp":"2025-06-01T10:00:00Z","transaction_type":"transfer","amount":100,"currency":"BDT","status":"completed","counterparty":"01711111111"}]}

@@ -1,0 +1,4 @@
+INFO:     127.0.0.1:58649 - "POST /analyze-ticket HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58653 - "POST /analyze-ticket HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58657 - "POST /analyze-ticket HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58661 - "POST /analyze-ticket HTTP/1.1" 500 Internal Server Error

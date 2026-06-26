@@ -1,0 +1,31 @@
+{
+  "_meta": {
+    "source": "Hand-crafted edge case covering PRD §6 strict enums.",
+    "description": "Unknown enum value (user_type='robot') returns 400 invalid_request."
+  },
+  "request": {
+    "ticket_id": "EDGE-400-02",
+    "complaint": "I lost 500 taka.",
+    "transaction_history": [],
+    "user_type": "robot"
+  },
+  "response": {
+    "error": {
+      "error": "invalid_request",
+      "issues": [
+        {
+          "type": "enum",
+          "loc": [
+            "user_type"
+          ],
+          "msg": "Input should be 'customer', 'merchant', 'agent' or 'unknown'",
+          "input": "robot",
+          "ctx": {
+            "expected": "'customer', 'merchant', 'agent' or 'unknown'"
+          },
+          "url": "https://errors.pydantic.dev/2.9/v/enum"
+        }
+      ]
+    }
+  }
+}

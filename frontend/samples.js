@@ -1,0 +1,235 @@
+/* PrantoLedger frontend — sample-case payloads.
+ * These mirror the public cases in docs/SUST_Preli_Sample_Cases.json so a
+ * judge can one-click each PRD §16 example.
+ */
+window.PRANTOLEDGER_SAMPLES = [
+  {
+    id: "SAMPLE-01",
+    label: "Wrong transfer (matching evidence)",
+    ticket_id: "TKT-001",
+    language: "en",
+    channel: "in_app_chat",
+    user_type: "customer",
+    campaign_context: "boishakh_bonanza_day_1",
+    complaint:
+      "I sent 5000 taka to a wrong number around 2pm today. The number was supposed to be 01712345678 but I think I typed it wrong. The person isn't responding to my call. Please help me get my money back.",
+    transaction_history: [
+      {
+        transaction_id: "TXN-9101",
+        timestamp: "2026-04-14T14:08:22Z",
+        type: "transfer",
+        amount: 5000,
+        counterparty: "+8801719876543",
+        status: "completed",
+      },
+      {
+        transaction_id: "TXN-9087",
+        timestamp: "2026-04-13T18:12:00Z",
+        type: "cash_in",
+        amount: 10000,
+        counterparty: "AGENT-512",
+        status: "completed",
+      },
+    ],
+  },
+  {
+    id: "SAMPLE-02",
+    label: "Wrong transfer (established recipient)",
+    ticket_id: "TKT-002",
+    language: "en",
+    channel: "in_app_chat",
+    user_type: "customer",
+    complaint: "I sent 2000 to the wrong person by mistake. Please reverse it.",
+    transaction_history: [
+      {
+        transaction_id: "TXN-9202",
+        timestamp: "2026-04-14T11:30:00Z",
+        type: "transfer",
+        amount: 2000,
+        counterparty: "+8801812345678",
+        status: "completed",
+      },
+      {
+        transaction_id: "TXN-9180",
+        timestamp: "2026-04-10T09:15:00Z",
+        type: "transfer",
+        amount: 2500,
+        counterparty: "+8801812345678",
+        status: "completed",
+      },
+      {
+        transaction_id: "TXN-9145",
+        timestamp: "2026-04-05T17:45:00Z",
+        type: "transfer",
+        amount: 1500,
+        counterparty: "+8801812345678",
+        status: "completed",
+      },
+    ],
+  },
+  {
+    id: "SAMPLE-03",
+    label: "Payment failed (mobile recharge)",
+    ticket_id: "TKT-003",
+    language: "en",
+    channel: "in_app_chat",
+    user_type: "customer",
+    complaint:
+      "I tried to pay 1200 taka for my mobile recharge but the app showed failed. But the money was deducted. Please help.",
+    transaction_history: [
+      {
+        transaction_id: "TXN-9303",
+        timestamp: "2026-04-14T16:45:00Z",
+        type: "payment",
+        amount: 1200,
+        counterparty: "BILLER-GP",
+        status: "failed",
+      },
+      {
+        transaction_id: "TXN-9299",
+        timestamp: "2026-04-14T16:42:00Z",
+        type: "cash_in",
+        amount: 5000,
+        counterparty: "AGENT-77",
+        status: "completed",
+      },
+    ],
+  },
+  {
+    id: "SAMPLE-04",
+    label: "Refund request (low value)",
+    ticket_id: "TKT-004",
+    language: "en",
+    channel: "in_app_chat",
+    user_type: "customer",
+    complaint:
+      "I paid 500 to a merchant for a product but I changed my mind and don't want it. Please refund.",
+    transaction_history: [
+      {
+        transaction_id: "TXN-9404",
+        timestamp: "2026-04-12T19:20:00Z",
+        type: "payment",
+        amount: 500,
+        counterparty: "MERCHANT-22",
+        status: "completed",
+      },
+    ],
+  },
+  {
+    id: "SAMPLE-05",
+    label: "Phishing / social engineering",
+    ticket_id: "TKT-005",
+    language: "en",
+    channel: "call_center",
+    user_type: "customer",
+    complaint:
+      "Someone called me saying they are from bKash and asked for my OTP. They said my account will be blocked if I don't share it. Is this real? I haven't shared anything yet.",
+    transaction_history: [],
+  },
+  {
+    id: "SAMPLE-06",
+    label: "Vague complaint",
+    ticket_id: "TKT-006",
+    language: "en",
+    channel: "in_app_chat",
+    user_type: "customer",
+    complaint: "Something is wrong with my money. Please check.",
+    transaction_history: [],
+  },
+  {
+    id: "SAMPLE-07",
+    label: "Agent cash-in issue (Bangla)",
+    ticket_id: "TKT-007",
+    language: "bn",
+    channel: "in_app_chat",
+    user_type: "customer",
+    complaint:
+      "আমি আজ সকালে এজেন্টের কাছে ২০০০ টাকা ক্যাশ ইন করেছি কিন্তু আমার ব্যালেন্সে টাকা আসেনি।",
+    transaction_history: [
+      {
+        transaction_id: "TXN-9707",
+        timestamp: "2026-04-14T07:10:00Z",
+        type: "cash_in",
+        amount: 2000,
+        counterparty: "AGENT-321",
+        status: "pending",
+      },
+    ],
+  },
+  {
+    id: "SAMPLE-08",
+    label: "Wrong transfer (ambiguous match)",
+    ticket_id: "TKT-008",
+    language: "en",
+    channel: "in_app_chat",
+    user_type: "customer",
+    complaint:
+      "I sent 1000 to my brother yesterday but he says he didn't get it. Please check.",
+    transaction_history: [
+      {
+        transaction_id: "TXN-9808A",
+        timestamp: "2026-04-13T14:00:00Z",
+        type: "transfer",
+        amount: 1000,
+        counterparty: "+8801711112222",
+        status: "completed",
+      },
+      {
+        transaction_id: "TXN-9808B",
+        timestamp: "2026-04-13T15:30:00Z",
+        type: "transfer",
+        amount: 1000,
+        counterparty: "+8801733334444",
+        status: "completed",
+      },
+    ],
+  },
+  {
+    id: "SAMPLE-09",
+    label: "Merchant settlement delay",
+    ticket_id: "TKT-009",
+    language: "en",
+    channel: "in_app_chat",
+    user_type: "merchant",
+    complaint:
+      "I am a merchant. My yesterday's sales of 15000 taka have not been settled to my bank account yet. Please look into it.",
+    transaction_history: [
+      {
+        transaction_id: "TXN-9909",
+        timestamp: "2026-04-13T22:00:00Z",
+        type: "cash_in",
+        amount: 15000,
+        counterparty: "MERCHANT-91",
+        status: "completed",
+      },
+    ],
+  },
+  {
+    id: "SAMPLE-10",
+    label: "Duplicate electricity bill",
+    ticket_id: "TKT-010",
+    language: "en",
+    channel: "in_app_chat",
+    user_type: "customer",
+    complaint:
+      "I paid my electricity bill 850 taka but it deducted twice from my account. Please refund one.",
+    transaction_history: [
+      {
+        transaction_id: "TXN-1010A",
+        timestamp: "2026-04-14T09:10:00Z",
+        type: "payment",
+        amount: 850,
+        counterparty: "BILLER-DESCO",
+        status: "completed",
+      },
+      {
+        transaction_id: "TXN-1010B",
+        timestamp: "2026-04-14T09:11:00Z",
+        type: "payment",
+        amount: 850,
+        counterparty: "BILLER-DESCO",
+        status: "completed",
+      },
+    ],
+  },
+];

@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PrantoLedger — SupportOps Console</title>
+    <meta
+      name="description"
+      content="Internal copilot for the QueueStorm Investigator: classify, route, and safely reply to support tickets."
+    />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">⎈</span>
+        <div>
+          <h1>PrantoLedger</h1>
+          <p class="tagline">Internal SupportOps Copilot</p>
+        </div>
+      </div>
+      <nav class="topbar-actions" aria-label="Top actions">
+        <a class="btn btn-ghost" href="/docs" target="_blank" rel="noopener">API docs</a>
+        <a class="btn btn-ghost" href="/health" target="_blank" rel="noopener">Health</a>
+        <button
+          id="theme-toggle"
+          class="btn btn-ghost"
+          type="button"
+          aria-label="Toggle color theme"
+          title="Toggle color theme"
+        >
+          <span class="theme-icon" data-theme-icon="dark">☀</span>
+          <span class="theme-label">Light</span>
+        </button>
+      </nav>
+    </header>
+
+    <main id="main" class="layout">
+      <section class="panel form-panel" aria-labelledby="form-title">
+        <header class="panel-header">
+          <h2 id="form-title">New ticket</h2>
+          <p class="panel-sub">
+            Paste a complaint (English / Bangla / Banglish). Transaction history is
+            optional but makes routing more accurate.
+          </p>
+        </header>
+
+        <form id="ticket-form" novalidate>
+          <div class="grid-2">
+            <label class="field">
+              <span>Ticket ID</span>
+              <input
+                id="ticket_id"
+                name="ticket_id"
+                type="text"
+                required
+                minlength="1"
+                autocomplete="off"
+                placeholder="TKT-1042"
+              />
+            </label>
+            <label class="field">
+              <span>Language</span>
+              <select id="language" name="language">
+                <option value="">Auto-detect</option>
+                <option value="en">English (en)</option>
+                <option value="bn">Bangla (bn)</option>
+                <option value="mixed">Banglish / mixed</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Channel</span>
+              <select id="channel" name="channel">
+                <option value="">Unknown</option>
+                <option value="in_app_chat">In-app chat</option>
+                <option value="call_center">Call centre</option>
+                <option value="email">Email</option>
+                <option value="branch">Branch visit</option>
+                <option value="social_media">Social media</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>User type</span>
+              <select id="user_type" name="user_type">
+                <option value="customer">Customer</option>
+                <option value="merchant">Merchant</option>
+                <option value="agent">Agent</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="field">
+            <span>Complaint <em class="muted">(required)</em></span>
+            <textarea
+              id="complaint"
+              name="complaint"
+              rows="4"
+              required
+              minlength="1"
+              placeholder="e.g. I sent 5000 taka to a wrong number around 2pm today..."
+            ></textarea>
+          </label>
+
+          <fieldset class="txns">
+            <legend>
+              Transaction history
+              <button
+                id="add-txn"
+                type="button"
+                class="btn btn-tiny"
+                aria-label="Add transaction"
+              >
+                + Add
+              </button>
+            </legend>
+            <p class="muted small">
+              Add one row per known transaction. Amounts are in BDT.
+            </p>
+            <div id="txn-list" class="txn-list" role="list"></div>
+            <template id="txn-template">
+              <div class="txn-row" role="listitem">
+                <input class="txn-id" type="text" placeholder="TXN-1234" />
+                <input class="txn-amount" type="number" min="0" step="0.01" placeholder="Amount" />
+                <input class="txn-ts" type="datetime-local" step="1" aria-label="Timestamp (local)" />
+                <select class="txn-type">
+                  <option value="transfer">transfer</option>
+                  <option value="payment">payment</option>
+                  <option value="cash_in">cash_in</option>
+                  <option value="cash_out">cash_out</option>
+                  <option value="refund">refund</option>
+                </select>
+                <select class="txn-status">
+                  <option value="completed">completed</option>
+                  <option value="pending">pending</option>
+                  <option value="failed">failed</option>
+                  <option value="reversed">reversed</option>
+                </select>
+                <input class="txn-cp" type="text" placeholder="Counterparty (number/agent)" />
+                <button type="button" class="btn btn-tiny btn-danger txn-remove" aria-label="Remove">
+                  ×
+                </button>
+              </div>
+            </template>
+          </fieldset>
+
+          <div class="form-actions">
+            <button id="submit" type="submit" class="btn btn-primary">
+              Analyze ticket
+            </button>
+            <button id="reset" type="reset" class="btn btn-ghost">Reset</button>
+          </div>
+        </form>
+
+        <section class="quick-load" aria-labelledby="ql-title">
+          <h3 id="ql-title">Quick-load sample cases</h3>
+          <p class="muted small">
+            One click loads a pre-built ticket straight into the form.
+          </p>
+          <div id="quick-load-grid" class="quick-load-grid" role="list"></div>
+        </section>
+      </section>
+
+      <section class="panel output-panel" aria-labelledby="out-title" aria-live="polite">
+        <header class="panel-header">
+          <h2 id="out-title">Verdict</h2>
+          <p class="panel-sub" id="verdict-sub">
+            Submit a ticket to see routing, severity, and a safe reply.
+          </p>
+        </header>
+
+        <div id="status-line" class="status-line" hidden></div>
+
+        <div id="empty-state" class="empty-state">
+          <div class="empty-mark" aria-hidden="true">⟶</div>
+          <p>
+            The response will appear here. Deterministic by default — the LLM
+            (Groq, optional) only polishes the safe template reply.
+          </p>
+        </div>
+
+        <article id="result" class="result" hidden>
+          <div class="result-grid">
+            <div class="kv"><span>Ticket</span><strong id="r-ticket"></strong></div>
+            <div class="kv">
+              <span>Relevant transaction</span>
+              <strong id="r-tx" class="mono"></strong>
+            </div>
+            <div class="kv">
+              <span>Amount</span>
+              <strong id="r-amount" class="mono"></strong>
+            </div>
+            <div class="kv">
+              <span>Counterparty</span>
+              <strong id="r-cp" class="mono"></strong>
+            </div>
+            <div class="kv">
+              <span>Evidence verdict</span>
+              <strong id="r-verdict" class="badge"></strong>
+            </div>
+            <div class="kv">
+              <span>Case type</span>
+              <strong id="r-case" class="badge"></strong>
+            </div>
+            <div class="kv">
+              <span>Severity</span>
+              <strong id="r-severity" class="badge"></strong>
+            </div>
+            <div class="kv">
+              <span>Department</span>
+              <strong id="r-dept" class="badge"></strong>
+            </div>
+            <div class="kv">
+              <span>Human review</span>
+              <strong id="r-review" class="badge"></strong>
+            </div>
+            <div class="kv">
+              <span>Confidence</span>
+              <strong id="r-confidence" class="mono"></strong>
+            </div>
+          </div>
+
+          <h3>Agent summary</h3>
+          <p id="r-agent-summary" class="prose"></p>
+
+          <h3>Recommended next action</h3>
+          <p id="r-action" class="prose"></p>
+
+          <h3>Customer reply (safe)</h3>
+          <p id="r-reply" class="prose reply"></p>
+
+          <details class="raw">
+            <summary>Raw response JSON</summary>
+            <pre id="r-raw"></pre>
+          </details>
+
+          <h3>Reason codes</h3>
+          <ul id="r-codes" class="codes"></ul>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>
+        PrantoLedger ·
+        <a href="/docs" target="_blank" rel="noopener">API</a> ·
+        <a href="/health" target="_blank" rel="noopener">Health</a> ·
+        <a
+          href="https://github.com/"
+          target="_blank"
+          rel="noopener"
+          >Source</a
+        >
+      </span>
+      <span class="muted small">v<span id="app-version">…</span></span>
+    </footer>
+
+    <script src="/static/samples.js"></script>
+    <script src="/static/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+{
+  "_meta": {
+    "source": "Hand-crafted edge case demonstrating the default 'other' / refund branch.",
+    "description": "Reversed refund + completed payment of same amount — single match, routed to customer_support."
+  },
+  "request": {
+    "ticket_id": "EDGE-REV-01",
+    "complaint": "I was charged 750 taka twice for the same bill. Please check.",
+    "language": "en",
+    "channel": "in_app_chat",
+    "user_type": "customer",
+    "transaction_history": [
+      {
+        "transaction_id": "TXN-REV-1",
+        "timestamp": "2026-04-14T11:00:00Z",
+        "type": "refund",
+        "amount": 750,
+        "counterparty": "BILLER-DESCO",
+        "status": "reversed"
+      },
+      {
+        "transaction_id": "TXN-REV-2",
+        "timestamp": "2026-04-13T20:00:00Z",
+        "type": "payment",
+        "amount": 750,
+        "counterparty": "BILLER-DESCO",
+        "status": "completed"
+      }
+    ]
+  },
+  "response": {
+    "ticket_id": "EDGE-REV-01",
+    "relevant_transaction_id": null,
+    "evidence_verdict": "insufficient_data",
+    "case_type": "other",
+    "severity": "low",
+    "department": "customer_support",
+    "agent_summary": "Ticket logged. Single transaction match found (None). Routed to customer_support for follow-up.",
+    "recommended_next_action": "Reply to customer asking for the transaction ID, amount, and a short description of what went wrong.",
+    "customer_reply": "We have received your request. For your security, please do not share your PIN or OTP with anyone. Our support team will review the case and contact you through official support channels.",
+    "human_review_required": false,
+    "confidence": 0.6,
+    "reason_codes": [
+      "tx_match"
+    ]
+  }
+}

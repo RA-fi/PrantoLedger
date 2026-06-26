@@ -1,0 +1,60 @@
+{
+  "_meta": {
+    "source": "SAMPLE-07 from docs/SUST_Preli_Sample_Cases.json",
+    "description": "Agent cash-in issue, Bangla complaint. Bangla input is handled natively. The customer_reply is returned in the same language (Bangla) as the input. Pending status combined with the customer's claim of non-receipt warrants human review and agent_operations investigation."
+  },
+  "request": {
+    "ticket_id": "TKT-007",
+    "complaint": "আমি আজ সকালে এজেন্টের কাছে ২০০০ টাকা ক্যাশ ইন করেছি কিন্তু আমার ব্যালেন্সে টাকা আসেনি। এজেন্ট বলছে টাকা পাঠিয়েছে কিন্তু আমি দেখছি না।",
+    "language": "bn",
+    "channel": "call_center",
+    "user_type": "customer",
+    "transaction_history": [
+      {
+        "transaction_id": "TXN-9701",
+        "timestamp": "2026-04-14T09:30:00Z",
+        "type": "cash_in",
+        "amount": 2000,
+        "counterparty": "AGENT-318",
+        "status": "pending"
+      }
+    ]
+  },
+  "response": {
+    "ticket_id": "TKT-007",
+    "relevant_transaction_id": "TXN-9701",
+    "evidence_verdict": "consistent",
+    "case_type": "agent_cash_in_issue",
+    "severity": "high",
+    "department": "agent_operations",
+    "agent_summary": "Pending agent cash-in TXN-9701 flagged for agent operations review.",
+    "recommended_next_action": "Investigate TXN-9701 pending status with agent operations. Confirm settlement state and resolve within the standard cash-in SLA.",
+    "customer_reply": "আপনার লেনদেন TXN-9701 এর বিষয়ে আমরা অবগত হয়েছি। আমাদের এজেন্ট অপারেশন্স দল এটি দ্রুত যাচাই করবে এবং অফিসিয়াল চ্যানেলে আপনাকে জানাবে। অনুগ্রহ করে কারো সাথে আপনার পিন বা ওটিপি শেয়ার করবেন না।",
+    "human_review_required": true,
+    "confidence": 0.88,
+    "reason_codes": [
+      "pending_cash_in",
+      "tx_match",
+      "agent_cash_in",
+      "agent_ops"
+    ]
+  },
+  "expected_output": {
+    "ticket_id": "TKT-007",
+    "relevant_transaction_id": "TXN-9701",
+    "evidence_verdict": "consistent",
+    "case_type": "agent_cash_in_issue",
+    "severity": "high",
+    "department": "agent_operations",
+    "agent_summary": "Customer reports 2000 BDT cash-in via AGENT-318 (TXN-9701) not reflected in balance. Transaction status is pending. Agent claims funds were sent.",
+    "recommended_next_action": "Investigate TXN-9701 pending status with agent operations. Confirm settlement state and resolve within the standard cash-in SLA.",
+    "customer_reply": "আপনার লেনদেন TXN-9701 এর বিষয়ে আমরা অবগত হয়েছি। আমাদের এজেন্ট অপারেশন্স দল এটি দ্রুত যাচাই করবে এবং অফিসিয়াল চ্যানেলে আপনাকে জানাবে। অনুগ্রহ করে কারো সাথে আপনার পিন বা ওটিপি শেয়ার করবেন না।",
+    "human_review_required": true,
+    "confidence": 0.88,
+    "reason_codes": [
+      "agent_cash_in",
+      "pending_transaction",
+      "agent_ops"
+    ]
+  }
+}

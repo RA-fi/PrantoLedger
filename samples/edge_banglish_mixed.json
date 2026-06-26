@@ -1,0 +1,39 @@
+{
+  "_meta": {
+    "source": "Hand-crafted edge case covering PRD §8.1 Banglish heuristic.",
+    "description": "Banglish romanisation triggers 'mixed' detection and English fallback template."
+  },
+  "request": {
+    "ticket_id": "EDGE-MIX-01",
+    "complaint": "ami taka pathiyechen but lok ta pay nai, please check.",
+    "language": "mixed",
+    "channel": "in_app_chat",
+    "user_type": "customer",
+    "transaction_history": [
+      {
+        "transaction_id": "TXN-MIX-1",
+        "timestamp": "2026-04-14T15:30:00Z",
+        "type": "transfer",
+        "amount": 750,
+        "counterparty": "+8801711223344",
+        "status": "completed"
+      }
+    ]
+  },
+  "response": {
+    "ticket_id": "EDGE-MIX-01",
+    "relevant_transaction_id": null,
+    "evidence_verdict": "insufficient_data",
+    "case_type": "other",
+    "severity": "low",
+    "department": "customer_support",
+    "agent_summary": "Ticket logged. Single transaction match found (None). Routed to customer_support for follow-up.",
+    "recommended_next_action": "Reply to customer asking for the transaction ID, amount, and a short description of what went wrong.",
+    "customer_reply": "We have received your request. For your security, please do not share your PIN or OTP with anyone. Our support team will review the case and contact you through official support channels.",
+    "human_review_required": false,
+    "confidence": 0.6,
+    "reason_codes": [
+      "vague_complaint"
+    ]
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "_meta": {
+    "source": "SAMPLE-09 from docs/SUST_Preli_Sample_Cases.json",
+    "description": "Merchant settlement delay. Merchant-side complaint with clear evidence of a pending settlement. Routes to merchant_operations. Note that user_type='merchant' should influence routing and response tone. The customer_reply here is more business-formal than the customer-facing replies in other cases."
+  },
+  "request": {
+    "ticket_id": "TKT-009",
+    "complaint": "I am a merchant. My yesterday's sales of 15000 taka have not been settled to my account. Settlement usually happens by 11am next day. Please check.",
+    "language": "en",
+    "channel": "merchant_portal",
+    "user_type": "merchant",
+    "transaction_history": [
+      {
+        "transaction_id": "TXN-9901",
+        "timestamp": "2026-04-13T18:00:00Z",
+        "type": "settlement",
+        "amount": 15000,
+        "counterparty": "MERCHANT-SELF",
+        "status": "pending"
+      }
+    ]
+  },
+  "response": {
+    "ticket_id": "TKT-009",
+    "relevant_transaction_id": "TXN-9901",
+    "evidence_verdict": "consistent",
+    "case_type": "merchant_settlement_delay",
+    "severity": "medium",
+    "department": "merchant_operations",
+    "agent_summary": "Settlement transaction TXN-9901 is pending. Merchant operations will verify batch status and ETA.",
+    "recommended_next_action": "Route to merchant_operations to verify settlement batch status. If the batch is delayed, communicate a revised ETA to the merchant.",
+    "customer_reply": "We have logged your settlement dispute under transaction TXN-9901. The merchant operations team will resolve the delay within standard SLA windows.",
+    "human_review_required": false,
+    "confidence": 0.92,
+    "reason_codes": [
+      "pending_settlement",
+      "tx_match",
+      "merchant_settlement",
+      "delay"
+    ]
+  },
+  "expected_output": {
+    "ticket_id": "TKT-009",
+    "relevant_transaction_id": "TXN-9901",
+    "evidence_verdict": "consistent",
+    "case_type": "merchant_settlement_delay",
+    "severity": "medium",
+    "department": "merchant_operations",
+    "agent_summary": "Merchant reports yesterday's 15000 BDT settlement (TXN-9901) is delayed beyond the standard 11 AM next-day window. Settlement status is pending.",
+    "recommended_next_action": "Route to merchant_operations to verify settlement batch status. If the batch is delayed, communicate a revised ETA to the merchant.",
+    "customer_reply": "We have noted your concern about settlement TXN-9901. Our merchant operations team will check the batch status and update you on the expected settlement time through official channels.",
+    "human_review_required": false,
+    "confidence": 0.92,
+    "reason_codes": [
+      "merchant_settlement",
+      "delay",
+      "pending"
+    ]
+  }
+}

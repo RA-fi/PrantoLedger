@@ -1,0 +1,51 @@
+{
+  "_meta": {
+    "source": "SAMPLE-05 from docs/SUST_Preli_Sample_Cases.json",
+    "description": "Phishing or social engineering report. Phishing reports are critical severity by default. Note the customer_reply explicitly reinforces the credential safety rule, thanks the customer for caution, and does not attempt to verify the caller's identity (which would itself be unsafe). Empty transaction_history is normal for safety reports."
+  },
+  "request": {
+    "ticket_id": "TKT-005",
+    "complaint": "Someone called me saying they are from bKash and asked for my OTP. They said my account will be blocked if I don't share it. Is this real? I haven't shared anything yet.",
+    "language": "en",
+    "channel": "call_center",
+    "user_type": "customer",
+    "transaction_history": []
+  },
+  "response": {
+    "ticket_id": "TKT-005",
+    "relevant_transaction_id": null,
+    "evidence_verdict": "insufficient_data",
+    "case_type": "phishing_or_social_engineering",
+    "severity": "critical",
+    "department": "fraud_risk",
+    "agent_summary": "Reported social-engineering or credential-request attempt. The complaint itself contains phishing or credential-request language. Routed to fraud_risk without evaluating transaction history.",
+    "recommended_next_action": "Escalate to fraud_risk team immediately. Confirm to customer that the company never asks for OTP. Log the reported number for fraud pattern analysis.",
+    "customer_reply": "Thank you for reaching out before sharing any information. We never ask for your PIN, OTP, or password under any circumstances. Please do not share these with anyone, even if they claim to be from us. Our fraud team has been notified of this incident.",
+    "human_review_required": true,
+    "confidence": 0.95,
+    "reason_codes": [
+      "phishing_keywords_detected",
+      "empty_transaction_history",
+      "phishing_keywords_detected",
+      "phishing_keywords_detected"
+    ]
+  },
+  "expected_output": {
+    "ticket_id": "TKT-005",
+    "relevant_transaction_id": null,
+    "evidence_verdict": "insufficient_data",
+    "case_type": "phishing_or_social_engineering",
+    "severity": "critical",
+    "department": "fraud_risk",
+    "agent_summary": "Customer reports an unsolicited call claiming to be from the company and asking for OTP. Customer has not yet shared credentials. Likely social engineering attempt.",
+    "recommended_next_action": "Escalate to fraud_risk team immediately. Confirm to customer that the company never asks for OTP. Log the reported number for fraud pattern analysis.",
+    "customer_reply": "Thank you for reaching out before sharing any information. We never ask for your PIN, OTP, or password under any circumstances. Please do not share these with anyone, even if they claim to be from us. Our fraud team has been notified of this incident.",
+    "human_review_required": true,
+    "confidence": 0.95,
+    "reason_codes": [
+      "phishing",
+      "credential_protection",
+      "critical_escalation"
+    ]
+  }
+}

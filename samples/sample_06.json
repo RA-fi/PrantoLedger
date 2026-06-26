@@ -1,0 +1,64 @@
+{
+  "_meta": {
+    "source": "SAMPLE-06 from docs/SUST_Preli_Sample_Cases.json",
+    "description": "Vague complaint, insufficient evidence. Without specifics, the service should not guess. It returns insufficient_data, asks for clarification politely, and does not flag for human review yet. Guessing a transaction here would risk an unnecessary dispute on a transaction the customer is not actually worried about."
+  },
+  "request": {
+    "ticket_id": "TKT-006",
+    "complaint": "Something is wrong with my money. Please check.",
+    "language": "en",
+    "channel": "in_app_chat",
+    "user_type": "customer",
+    "transaction_history": [
+      {
+        "transaction_id": "TXN-9601",
+        "timestamp": "2026-04-13T10:00:00Z",
+        "type": "cash_in",
+        "amount": 3000,
+        "counterparty": "AGENT-220",
+        "status": "completed"
+      },
+      {
+        "transaction_id": "TXN-9602",
+        "timestamp": "2026-04-12T15:30:00Z",
+        "type": "transfer",
+        "amount": 800,
+        "counterparty": "+8801911223344",
+        "status": "completed"
+      }
+    ]
+  },
+  "response": {
+    "ticket_id": "TKT-006",
+    "relevant_transaction_id": null,
+    "evidence_verdict": "insufficient_data",
+    "case_type": "other",
+    "severity": "low",
+    "department": "customer_support",
+    "agent_summary": "Ticket logged. Single transaction match found (None). Routed to customer_support for follow-up.",
+    "recommended_next_action": "Reply to customer asking for the transaction ID, amount, and a short description of what went wrong.",
+    "customer_reply": "We have received your request. For your security, please do not share your PIN or OTP with anyone. Our support team will review the case and contact you through official support channels.",
+    "human_review_required": false,
+    "confidence": 0.6,
+    "reason_codes": [
+      "vague_complaint"
+    ]
+  },
+  "expected_output": {
+    "ticket_id": "TKT-006",
+    "relevant_transaction_id": null,
+    "evidence_verdict": "insufficient_data",
+    "case_type": "other",
+    "severity": "low",
+    "department": "customer_support",
+    "agent_summary": "Customer reports a vague concern about their money without specifying transaction, amount, or issue. Insufficient detail to identify any relevant transaction.",
+    "recommended_next_action": "Reply to customer asking for specific details: which transaction, what amount, what went wrong, and approximate time.",
+    "customer_reply": "Thank you for reaching out. To help you faster, please share the transaction ID, the amount involved, and a short description of what went wrong. Please do not share your PIN or OTP with anyone.",
+    "human_review_required": false,
+    "confidence": 0.6,
+    "reason_codes": [
+      "vague_complaint",
+      "needs_clarification"
+    ]
+  }
+}
